@@ -40,6 +40,7 @@ The first time you run the app the AWS modules will be downloaded as needed.
 
 ## TODO
 1. DONE dep is deprecated - swap out for go mod
+2. Naming issues - backblazeS3/backblazeS3, ec.
 2. 'returning bool' on success is odd - return the err instead
 3. hard code the config info in a struct, skip the whole JSON config marshal/unmarshal - its ok for a POC
 4. main needs to be formatted (in fact - should lint for a clean example of code)
