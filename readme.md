@@ -40,5 +40,5 @@ The first time you run the app the AWS modules will be downloaded as needed.
 
 ## TODO - Areas to Explore Further
 1. return actual errors in functions instead of bool
-2. store config info key/secrets management, or directly in a struct
-3. full golang linting i.e. proper Go comments
+2. store config info key/secrets management, with viper, or directly in a struct
+3. full golang linting i.e. proper Go comments and layout
