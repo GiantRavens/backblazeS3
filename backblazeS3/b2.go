@@ -1,8 +1,7 @@
 package backblazeS3
 
 import (
-	"backblaze_go/config"
-	"log"
+	"fmt"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -12,56 +11,65 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 )
 
+type B2 interface {
+	Upload(string, string) error
+	Download(string, string) error
+	Delete(string) error
+	List() ([]string, error)
+}
+
 type B2Client struct {
 	bucketName string
 	s3Client   *s3.S3
 }
 
-func NewB2Client(b2Cfg config.B2Config) (B2, error) {
+// NewB2Client creates a new b2 client with given configuration
+func NewB2Client(endpoint, region, keyId, applicationKey, token, bucketName string) (B2, error) {
 	s3Config := &aws.Config{
-		Endpoint:    &b2Cfg.Endpoint,
-		Region:      &b2Cfg.Region,
-		Credentials: credentials.NewStaticCredentials(b2Cfg.KeyID, b2Cfg.ApplicationKey, ""),
+		Endpoint:    &endpoint,
+		Region:      &region,
+		Credentials: credentials.NewStaticCredentials(keyId, applicationKey, token),
 	}
 
-	awsSession := session.Must(session.NewSession(s3Config)) //aws session
+	awsSession, err := session.NewSession(s3Config) //aws session
+	if err != nil {
+		return nil, err
+	}
 
 	s3Client := s3.New(awsSession) // s3 client
 
 	return &B2Client{
-		bucketName: b2Cfg.BucketName,
+		bucketName: bucketName,
 		s3Client:   s3Client,
 	}, nil
 }
 
-// uploads file at <filePath> to b2 with name <fileName>
-func (b *B2Client) Upload(fileName string, filePath string) bool {
+// Upload uploads file at <filePath> to b2 with name <fileName>
+func (b *B2Client) Upload(fileName string, filePath string) error {
 	file, err := os.Open(filePath)
 	if err != nil {
-		log.Println("[err][b2][upload] failed to open file", err)
-		return false
+		return fmt.Errorf("[err][b2][upload] failed to open file: '%s'", err)
 	}
 	defer file.Close()
+
 	uploader := s3manager.NewUploaderWithClient(b.s3Client)
 	_, err = uploader.Upload(&s3manager.UploadInput{
 		Bucket: &b.bucketName,
 		Key:    &fileName,
 		Body:   file,
 	})
-	if err != nil {
-		log.Println("[err][b2][upload] failed to upload file", err)
-		return false
-	}
-	return true
 
+	if err != nil {
+		return fmt.Errorf("[err][b2][upload] failed to upload file: '%s'", err)
+	}
+	return nil
 }
 
-// downloads file <fileName> to <writeTo>
-func (b *B2Client) Download(fileName string, writeTo string) bool {
+// Download downloads file <fileName> to <writeTo>
+func (b *B2Client) Download(fileName string, writeTo string) error {
 	file, err := os.Create(writeTo)
 	if err != nil {
-		log.Println("[err][b2][download] err creating destination file", err)
-		return false
+		return fmt.Errorf("[err][b2][download] err creating destination file: '%s'", err)
 	}
 	defer file.Close()
 
@@ -70,38 +78,35 @@ func (b *B2Client) Download(fileName string, writeTo string) bool {
 		Bucket: &b.bucketName,
 		Key:    &fileName,
 	})
+
 	if err != nil {
-		log.Println("[err][b2][download] failed to download file", err)
-		return false
+		return fmt.Errorf("[err][b2][download] failed to download file: '%s'", err)
 	}
-	return true
+	return nil
 }
 
-// deletes file in b2 with name <fileName>
-func (b *B2Client) Delete(fileName string) bool {
+// Delete deletes file in b2 with name <fileName>
+func (b *B2Client) Delete(fileName string) error {
 	_, err := b.s3Client.DeleteObject(&s3.DeleteObjectInput{
 		Bucket: &b.bucketName,
 		Key:    &fileName,
 	})
-	if err != nil {
-		log.Println("[err][b2] failed to delete object", err)
-		return false
-	}
-	return true
+	return err
 }
 
-// Lists all objects in the bucket
-func (b *B2Client) List() {
+// List lists all objects in the bucket
+func (b *B2Client) List() ([]string, error) {
 	objects, err := b.s3Client.ListObjects(&s3.ListObjectsInput{
 		Bucket: &b.bucketName,
 	})
 	if err != nil {
-		log.Println("[err][b2] failed to list objects", err)
-		return
+		return nil, fmt.Errorf("[err][b2] failed to list objects: '%s", err)
 	}
-	println(len(objects.Contents))
 
+	result := make([]string, 0, len(objects.Contents))
 	for _, obj := range objects.Contents {
-		println(*obj.Key)
+		result = append(result, *obj.Key)
 	}
+
+	return result, nil
 }

@@ -20,13 +20,9 @@ In that directory issue:
 ## Configure Your Bucket and Connection Information
 
 1. Create your target bucket in your Backblaze Account Management Page
-2. Issue an application key that only has access to that bucket. 
+2. Issue an application key that only has access to that bucket - be sure that 'list all buckets' option is selected.
 
-Make note of the server the bucket is created on as well, and enter that information in `config/config.go` to match your information.
-
-## Choose a File and Directory to Upload/Download
-
-in `backblaze_example_app.go` edit the name of the file you want to upload, then the destination to download it again to prove that you have uploaded, and downloaded a file.
+Make note of the server the bucket is created, and enter that information in `.env` to match your bucket, server, and appkey.
 
 ## Run Your App
 
@@ -38,7 +34,4 @@ Run the app with:
 
 The first time you run the app the AWS modules will be downloaded as needed.
 
-## TODO - Areas to Explore Further
-1. return actual errors in functions instead of bool
-2. store config info key/secrets management, with viper, or directly in a struct
-3. full golang linting i.e. proper Go comments and layout
+From here -  you can explore passing in filenames, changing the upload and download directories, and more.
