@@ -32,4 +32,4 @@ The first time you run the app the AWS modules will be downloaded as needed.
 
 A sample file is already included in dir_upload. You'll see the file upload, the bucket contents listed, then the file downloaded again to a separate folder. Finally, the delete function will be exercised and the file will be deleted from the bucket.
 
-From here -  you can explore passing in new filenames, dynamic filename, and more. 
+From here -  you can explore passing in new filenames, dynamic filenames, and more. 
