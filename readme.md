@@ -1,4 +1,4 @@
-# Simple POC for Go with Backblaze
+# Connecting Go Apps to Backblaze B2 with S3
 
 This simple POC shows how you can use the Amazon AWS S3 modules to connect to Backblaze B2 as a starting point for building your own applications.
 
@@ -18,7 +18,7 @@ Move into your $GOPATH directory, clone the repo.
 1. Create your target bucket in your Backblaze Account Management Page
 2. Issue an application key that only has access to that bucket - be sure that 'list all buckets' option is selected.
 
-Make note of the server endpoint associated with the bucket, and enter that information in `.env` to match your bucket, server, and appkey details.
+Make note of the server endpoint associated with the bucket, and enter this information in `.env` to match your bucket, server, and appkey details.
 
 ## Run Your App
 
