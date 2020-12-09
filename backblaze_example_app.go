@@ -30,7 +30,6 @@ func main() {
 	}
 
 	// list objects in the bucket
-
 	listResult, err := b2Client.List()
 	if err != nil {
 		log.Fatal(err)
@@ -40,21 +39,25 @@ func main() {
 		log.Println(result)
 	}
 
-	// upload object
+	// upload an object from dir_upload
 	fmt.Println("")
-	fmt.Println("Now uploading the file you've specified...")
+	fmt.Println("Uploading the file you've specified in dir_upload...")
 	if err := b2Client.Upload("CS_Nodecraft.pdf", "dir_upload/CS_Nodecraft.pdf"); err != nil {
 		log.Fatal("[err][b2][upload] failed to upload file", err)
 	}
 
-	// download object
+	// download an object from bucket to dir_download
+	fmt.Println("Downloading the file to dir_download...")
 	if err := b2Client.Download("CS_Nodecraft.pdf", "dir_download/CS_Nodecraft.pdf"); err != nil {
 		log.Fatal("[err][b2][download] failed to download file", err)
 	}
 
 	// delete object
+	fmt.Println("Deleting object from the bucket.")
 	if err := b2Client.Delete("CS_Nodecraft.pdf"); err != nil {
 		log.Fatal("[err][b2] failed to delete object", err)
 	}
+
+	fmt.Println("Complete.")
 
 }

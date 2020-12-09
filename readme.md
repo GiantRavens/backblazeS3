@@ -1,6 +1,6 @@
 # Simple POC for Go with Backblaze
 
-This simple POC shows how you can use the Amazon AWS S3 libs to connect to Backblaze B2 as a starting point for building your own applications.
+This simple POC shows how you can use the Amazon AWS S3 modules to connect to Backblaze B2 as a starting point for building your own applications.
 
 ## Setting Up Your Environment
 
@@ -13,20 +13,16 @@ On a Mac, you can use the brew package manager to install Go with:
 ```
 Move into your $GOPATH directory, clone the repo.
 
-In that directory issue:
-
-`go mod init`
-
 ## Configure Your Bucket and Connection Information
 
 1. Create your target bucket in your Backblaze Account Management Page
 2. Issue an application key that only has access to that bucket - be sure that 'list all buckets' option is selected.
 
-Make note of the server the bucket is created, and enter that information in `.env` to match your bucket, server, and appkey.
+Make note of the server endpoint associated with the bucket, and enter that information in `.env` to match your bucket, server, and appkey details.
 
 ## Run Your App
 
-Run the app with:
+Issue `go mod init`, then run the app with:
 
 ```golang
   go run backblaze_example_app.go
@@ -34,4 +30,6 @@ Run the app with:
 
 The first time you run the app the AWS modules will be downloaded as needed.
 
-From here -  you can explore passing in filenames, changing the upload and download directories, and more.
+A sample file is already included in dir_upload. You'll see the file upload, the bucket contents listed, then the file downloaded again to a separate folder. Finally, the delete function will be exercised and the file will be deleted from the bucket.
+
+From here -  you can explore passing in new filenames, dynamic filename, and more. 
