@@ -1,6 +1,6 @@
 # Connecting Go Apps to Backblaze B2 with S3
 
-This simple POC shows how you can use the Amazon AWS S3 modules to connect to Backblaze B2 as a starting point for building your own applications.
+This simple POC shows how you can use the Amazon AWS S3 modules to connect to Backblaze B2 as a starting point for building your own applications in Go.
 
 ## Setting Up Your Environment
 
