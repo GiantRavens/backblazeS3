@@ -4,7 +4,7 @@ This simple POC shows how you can use the Amazon AWS S3 modules to connect to Ba
 
 ## Setting Up Your Environment
 
-Make sure you have a running install of Go.
+Make sure you have a [running install of Go](https://golang.org/doc/install).
 
 On a Mac, you can use the brew package manager to install Go with:
 
@@ -16,9 +16,9 @@ Move into your $GOPATH directory, clone the repo.
 ## Configure Your Bucket and Connection Information
 
 1. Create your target bucket in your Backblaze Account Management Page
-2. Issue an application key that only has access to that bucket - be sure that 'list all buckets' option is selected.
+2. Issue an application key that only has access to that bucket - be sure that the 'list all buckets' option is selected.
 
-Make note of the server endpoint associated with the bucket, and enter this information in `.env` to match your bucket, server, and appkey details.
+Make note of the server endpoint associated with the bucket, and edit your configuration in `.env` to match your bucket, server, and appkey details.
 
 ## Run Your App
 
@@ -30,6 +30,6 @@ Issue `go mod init`, then run the app with:
 
 The first time you run the app the AWS modules will be downloaded as needed.
 
-A sample file is already included in dir_upload. You'll see the file upload, the bucket contents listed, then the file downloaded again to a separate folder. Finally, the delete function will be exercised and the file will be deleted from the bucket.
+A sample file is already included in dir_upload. When you run this app, you'll see the file upload, the bucket contents listed, then the file downloaded again to a separate folder. Finally, the delete function will be exercised and the file will be deleted from the bucket.
 
-From here -  you can explore passing in new filenames, dynamic filenames, and more. 
+From here -  you can explore passing in different filenames, dynamic filenames, and more. 
