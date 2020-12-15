@@ -15,7 +15,9 @@ Move into your $GOPATH directory, clone the repo.
 
 ## Configure Your Bucket and Connection Information
 
-1. Create your target bucket in your Backblaze Account Management Page
+If you aren't already signed up for Backblaze B2 [sign up for Backblaze B2 here](https://www.backblaze.com/b2/sign-up.html?referrer=giantravens) - your first 10GB/month are always no charge, after that $5/TB/month.
+
+1. Create your target bucket in your Backblaze Account Management Page. 
 2. Issue an application key that only has access to that bucket - be sure that the 'list all buckets' option is selected.
 
 Make note of the server endpoint associated with the bucket, and edit your configuration in `.env` to match your bucket, server, and appkey details.
